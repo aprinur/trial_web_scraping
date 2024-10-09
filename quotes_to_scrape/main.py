@@ -4,7 +4,7 @@ from source.soup import Soup  # mengimport class Soup dari modul soup didalam pa
 from source.util import get_html, save_to_xsls
 
 
-def get_quotes():
+"""def get_quotes():
     output = []
     max_page = 10
     for i in range(1, max_page + 1):
@@ -18,7 +18,7 @@ def get_quotes():
 def access_page():
     url = 'https://quotes.toscrape.com/page/1/'
     html = get_html(url)
-    soup = Soup(html)
+    soup = Soup(html)"""
 
 
 def main():
@@ -27,8 +27,8 @@ def main():
     for i in range(1, max_pages + 1):  # perulangan setiap halaman
         url = f"https://quotes.toscrape.com/page/{i}/"  # url dari halaman yang akan di scrape
         print(f'scraping url {url}')  # menampilkan url halaman yang sedang di-scrape
-        soup = get_html(url)  # mengambil konten html dari halaman
-        quotes = soup.scrape()  # membiat instance Soup dengan konten HTML
+        soup = get_html(url)  # mengambil html halaman terkini untuk diproses di method get_html()
+        quotes = soup.scrape()  # mengambil data tag dari halaman berdasarkan method scrape()
         output.extend(quotes)  # memasukkan hasil scraping ke list output
 
     save_to_xsls(output, 'Quotes.xlsx')  # menyimpan hasil scraping ke file xlsx
