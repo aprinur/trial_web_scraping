@@ -13,4 +13,3 @@ def save_to_xsls(quotes: list[Quotes], filename: str):
     df = pd.DataFrame(quotes)
     df.to_excel(filename)
 
-
