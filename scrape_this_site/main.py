@@ -28,8 +28,8 @@ for i in range(1, 7):
 
 # saving to external file
 today = datetime.datetime.now().strftime('%d-%B-%Y')
-df.to_excel(f'Hockey_{today}.xlsx')
-df.to_csv(rf'D:\Github\aprinur\Web_Scraping\scrape_this_site\Hockey_{today}.csv')
+df.to_excel(f'Hockey_{today}.xlsx', index=False)
+df.to_csv(rf'D:\Github\aprinur\Web_Scraping\scrape_this_site\Hockey_{today}.csv', index=False)
 
 
 
