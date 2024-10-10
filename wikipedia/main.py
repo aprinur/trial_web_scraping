@@ -20,11 +20,9 @@ rows = table.find_all('tr')
 for row in rows[1:]:
     row_data = row.find_all('td')
     item = [cell.text.strip() for cell in row_data]
-    # print(item)
     length = len(df)
     df.loc[length + 1] = item
 
-print(df)
 
 today = datetime.datetime.now().strftime('%d-%B-%Y')
 df.to_excel(f'List_of_largest_companies_in_Indonesia_{today}.xlsx', index=False)
