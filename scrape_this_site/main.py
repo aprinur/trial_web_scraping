@@ -14,7 +14,7 @@ table_title = [title.text.strip() for title in table]
 df = pd.DataFrame(columns=table_title)
 
 # getting item in table in page 1 to 6 (7-1)
-for i in range(1, 7):
+for i in range(7):
     web_url = f'https://www.scrapethissite.com/pages/forms/?page_num={i}&per_page=100'
     print(f"scraping {web_url}")
     page = requests.get(web_url)
