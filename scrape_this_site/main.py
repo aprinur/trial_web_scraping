@@ -13,7 +13,7 @@ table = soup.find_all('th', class_=False)
 table_title = [title.text.strip() for title in table]
 df = pd.DataFrame(columns=table_title)
 
-# getting item in table in page 1 to 4 (5-1)
+# getting item in table in page 1 to 6 (7-1)
 for i in range(1, 7):
     web_url = f'https://www.scrapethissite.com/pages/forms/?page_num={i}&per_page=100'
     print(f"scraping {web_url}")
@@ -30,6 +30,3 @@ for i in range(1, 7):
 today = datetime.datetime.now().strftime('%d-%B-%Y')
 df.to_excel(f'Hockey_{today}.xlsx', index=False)
 df.to_csv(rf'D:\Github\aprinur\Web_Scraping\scrape_this_site\Hockey_{today}.csv', index=False)
-
-
-
