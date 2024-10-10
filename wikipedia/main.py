@@ -26,3 +26,4 @@ for row in rows[1:]:
 
 today = datetime.datetime.now().strftime('%d-%B-%Y')
 df.to_excel(f'List_of_largest_companies_in_Indonesia_{today}.xlsx', index=False)
+df.to_csv(rf'D:\Github\aprinur\Web_Scraping\wikipedia\List_of_largest_companies_in_Indonesia_{today}.csv', index=False)
