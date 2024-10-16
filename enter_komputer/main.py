@@ -1,4 +1,4 @@
-from src.util import get_html
+from src.util import get_html, save_into_xlsx
 from src.soup import Soup
 
 
@@ -9,5 +9,26 @@ def get_item():
     soup.scrape()
 
 
+def get_url():
+    url = 'https://www.enterkomputer.com/pc-ready'
+    html = get_html(url)
+    soup = Soup(html)
+    soup.get_urls()
+
+
+def main():
+    url = 'https://www.enterkomputer.com/pc-ready'
+    html = get_html(url)
+    soup = Soup(html)
+    urls = soup.get_urls()
+    output = []
+    for url in urls[1:6]:
+        html = get_html(url)
+        soup = Soup(html)
+        items = soup.scrape()
+        output.append(items)
+    save_into_xlsx(output, 'Pc_ready')
+
+
 if __name__ == '__main__':
-    get_item()
+    main()
