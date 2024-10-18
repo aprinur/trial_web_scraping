@@ -1,19 +1,32 @@
-from src.util import get_html, save_into_xlsx
+from src.util import get_html, save_to_file
 from src.soup import Soup
+import time
 
 
 def get_item():
-    url = 'https://www.enterkomputer.com/pc-ready/detail/185916/EK-Office-Fizzword-Red-X'
+    url = 'https://www.enterkomputer.com/pc-ready/detail/191361/EK-Gaming-BattleStar-306-12G-AYW'
     html = get_html(url)
     soup = Soup(html)
-    soup.scrape()
+    results = []
+    result = soup.scrape()
+    results.append(result)
+    save_to_file(results, 'Trial')
 
 
 def get_url():
     url = 'https://www.enterkomputer.com/pc-ready'
     html = get_html(url)
     soup = Soup(html)
-    soup.get_urls()
+    result = []
+    same_url = []
+    urls = soup.get_urls()
+    for i in urls:
+        if i not in result:
+            result.append(i)
+        else:
+            same_url.append(i)
+    print('result', len(result))
+    print('same url', len(same_url))
 
 
 def main():
@@ -22,12 +35,14 @@ def main():
     soup = Soup(html)
     urls = soup.get_urls()
     output = []
-    for url in urls[1:6]:
+    for url in urls:
+        print(url)
         html = get_html(url)
         soup = Soup(html)
         items = soup.scrape()
         output.append(items)
-    save_into_xlsx(output, 'Pc_ready')
+
+    save_to_file(output, 'Pc_ready_91_page')
 
 
 if __name__ == '__main__':
