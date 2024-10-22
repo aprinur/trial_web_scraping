@@ -4,21 +4,21 @@ from source.soup import Soup  # mengimport class Soup dari modul soup didalam pa
 from source.util import get_html, save_to_xsls
 
 
-"""def get_quotes():
-    output = []
-    max_page = 10
-    for i in range(1, max_page + 1):
-        url = f'https://quotes.toscrape.com/page/{i}/'
-        soup = get_html(url)
-        quotes = soup.scrape()
-        output.append(quotes)
-    save_to_xsls(output, 'Scraping_quotes.xlsx')
-
-
-def access_page():
-    url = 'https://quotes.toscrape.com/page/1/'
-    html = get_html(url)
-    soup = Soup(html)"""
+# def get_quotes():
+#     output = []
+#     max_page = 10
+#     for i in range(1, max_page + 1):
+#         url = f'https://quotes.toscrape.com/page/{i}/'
+#         soup = get_html(url)
+#         quotes = soup.scrape()
+#         output.append(quotes)
+#     save_to_xsls(output, 'Scraping_quotes.xlsx')
+#
+#
+# def access_page():
+#     url = 'https://quotes.toscrape.com/page/1/'
+#     html = get_html(url)
+#     soup = Soup(html)
 
 
 def main():

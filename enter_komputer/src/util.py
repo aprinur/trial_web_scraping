@@ -1,5 +1,4 @@
 from selenium import webdriver
-import time
 import pandas as pd
 from .models import Items
 import datetime
