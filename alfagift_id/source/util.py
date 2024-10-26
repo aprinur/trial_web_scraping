@@ -30,3 +30,19 @@ def save_to_file(product, filename):
     df = pandas.DataFrame(product)
     df.to_excel(f'{filename}_{date}.xlsx', index=False)
     df.to_csv(fr'D:\Github\aprinur\Web_Scraping\alfagift_id\{filename}_{date}.csv', index=False)
+
+
+"""
+press_button(".page-link[aria-label='Go to next page']")
+
+
+'.'                            = indicates a css class selector
+'page-link'                    = refers to an alement that has the class='page-link'
+'[]'                           = to target elements with specific attributes
+'aria-label='Go to next page'' = an attribute selector that finds elements where the 
+                                 aria-label attribute exactly matches 'Go to next page'
+
+.page-link[aria-label='Go to next page'] this is a compound selector combining both a 
+class and an attribute, it selects an element that both has the class="page-link" and 
+has an aria-label attribute with the value 'Go to next page'                               
+"""
