@@ -54,7 +54,7 @@ class Soup(BeautifulSoup):
             Description=description
         )
 
-    def scrape_url(self):
+    def scrape_product_url(self):
         """Method to scrape product urls after choose category"""
         urls = [url.get_attribute_list('href') for url in
                 self.find('div', class_='row list-product').find_all('a',
@@ -64,12 +64,11 @@ class Soup(BeautifulSoup):
         # print(urls)
         return urls
 
-    def scrape_links(self):
-        """Method to scrape category urls from category page"""
+    def scrape_category_url(self):
+        """Method to scrape urls of category from main page"""
         links = [link.find('a').get_attribute_list('href') for link in
                  self.find_all('div', class_='list-group-item list-lv1')]
         links = [' '.join([str(c).replace('/c', f'{URL}c', ) for c in lst]) for lst in links]
-        #         print(links)
         return links
 
     def scrape_active_page(self):
@@ -79,4 +78,9 @@ class Soup(BeautifulSoup):
     def check_final_page(self):
         """ Method to check final page"""
         return self.find('span', attrs={'aria-disabled': 'true'})
+
+    def previous_page(self):
+        """ Method to return to page after select category"""
+        page = [url.find('a').get_attribute_list('href') for url in self.find_all('li', class_='breadcrumb-item')]
+        return page
 

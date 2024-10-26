@@ -17,14 +17,15 @@ def get_item_urls():
     url = 'https://alfagift.id/c/kebutuhan-dapur-5b85712ca3834cdebbbc4363'
     html = get_html(url)
     soup = Soup(html)
-    urls = soup.scrape_url()
+    urls = soup.scrape_product_url()
 
 
 def get_category_links():
     url = URL
     html = get_html(url)
     soup = Soup(html)
-    link = soup.scrape_links()
+    link = soup.scrape_category_url()
+    print(link)
 
 
 def get_page_number():
@@ -41,36 +42,47 @@ def get_all_page():
     total_page = soup.scrape_total_page()
 
 
-def main():
-    url = URL
+def previous_page():
+    url = 'https://alfagift.id/p/disney-lotso-tempat-minum--811091'
     html = get_html(url)
     soup = Soup(html)
-    category_urls = soup.scrape_links()
-    result = []
+    page = soup.previous_page()
+    print(page)
 
-    for category_url in category_urls[:3]:
-        print(f'Scraping category: {category_url}')
+
+def main():
+    while True:
+        url = URL
         html = get_html(url)
-        c_page = Soup(html)
-        product_urls = c_page.scrape_url()
-        page_num = []
-        if c_page.scrape_active_page() not in page_num:
-            page_num.append(c_page.scrape_active_page())
-            for link in product_urls[:3]:
-                html = get_html(link)
-                soup = Soup(html)
-                result.append(soup.scrape_product())
-                if len(page_num) == 3:
-                    page_num.clear()
-        else:
-            press_button("li[class='/breadcrumb-item']")
-            press_button(".page-link[aria-label='Go to next page']")
+        soup = Soup(html)
+        category_urls = soup.scrape_category_url()  # scrape urls of category in main page
+        result = []
+        scraped_page = []
+        for category_url in category_urls:
+            html = get_html(category_url)
+            soup = Soup(html)
+            product_urls = soup.scrape_product_url()  # scrape urls of product from product page
+            while True:
+                if soup.scrape_active_page() not in scraped_page:
+                    scraped_page.append(soup.scrape_active_page())
+                    for product_url in product_urls:
+                        html = get_html(product_url)
+                        soup = Soup(html)
+                        product = soup.scrape_product()  # scrape product information
+                        result.append(product)
+                if soup.check_final_page():
+                    scraped_page.clear()
+                    break
 
-    save_to_file(result, 'Trial')
-    # save_to_file(result, 'All_product_from_alfagift_id')
+        # for product_url in product_urls:
+        #     if soup.scrape_active_page() not in scraped_page:
+        #
+        #
+        #     else:
+        #         old_url = product_url.replace(f'{URL}c', '/c')
+        #         press_button(f"a[href='{old_url}']")
+        #         press_button('')
 
 
 if __name__ == '__main__':
-    main()
-
-
+    previous_page()
