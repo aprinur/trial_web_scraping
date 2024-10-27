@@ -50,39 +50,36 @@ def previous_page():
     print(page)
 
 
-def main():
-    while True:
-        url = URL
-        html = get_html(url)
-        soup = Soup(html)
-        category_urls = soup.scrape_category_url()  # scrape urls of category in main page
-        result = []
-        scraped_page = []
-        for category_url in category_urls:
-            html = get_html(category_url)
-            soup = Soup(html)
-            product_urls = soup.scrape_product_url()  # scrape urls of product from product page
-            while True:
-                if soup.scrape_active_page() not in scraped_page:
-                    scraped_page.append(soup.scrape_active_page())
-                    for product_url in product_urls:
-                        html = get_html(product_url)
-                        soup = Soup(html)
-                        product = soup.scrape_product()  # scrape product information
-                        result.append(product)
-                if soup.check_final_page():
-                    scraped_page.clear()
-                    break
+def active_page():
+    url = "https://alfagift.id/c/kebutuhan-ibu--anak-5b85712ca3834cdebbbc4367"
+    html = get_html(url)
+    soup = Soup(html)
+    active = soup.scrape_active_page()
+    print(active)
 
-        # for product_url in product_urls:
-        #     if soup.scrape_active_page() not in scraped_page:
-        #
-        #
-        #     else:
-        #         old_url = product_url.replace(f'{URL}c', '/c')
-        #         press_button(f"a[href='{old_url}']")
-        #         press_button('')
+
+def main():
+    url = URL
+    html = get_html(url)
+    soup = Soup(html)
+    category_urls = soup.scrape_category_url()  # scrape urls of category in main page
+    result = []
+    all_url_product = []
+    for category_url in category_urls[:3]:
+        print(f'Category = {category_url}')
+        html = get_html(category_url)
+        soup = Soup(html)
+        product_urls = soup.scrape_product_url()
+        all_url_product.append(product_urls)
+        if product_urls not in all_url_product:
+            press_button('button[aria-label="Go to next page"]')
+        for product_url in product_urls[:3]:
+            html = get_html(product_url)
+            soup = Soup(html)
+            product = soup.scrape_product()
+            result.append(product)
+    save_to_file(result, 'Trial')
 
 
 if __name__ == '__main__':
-    previous_page()
+    main()

@@ -73,7 +73,7 @@ class Soup(BeautifulSoup):
 
     def scrape_active_page(self):
         """ Method to scrape active page"""
-        return self.find('button', attrs={'aria-checked': 'true'}).get_text()
+        return ''.join(self.find('button', attrs={'aria-checked': 'true'}).get_attribute_list('aria-posinset'))
 
     def check_final_page(self):
         """ Method to check final page"""
