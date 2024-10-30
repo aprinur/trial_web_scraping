@@ -1,5 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
+
 import time
 import pandas
 import datetime
@@ -7,22 +11,28 @@ import datetime
 driver = webdriver.Chrome()
 
 
-def get_html(url):
-    driver.get(url)
-    time.sleep(2)
-    html_page = driver.page_source
-    return html_page
-
-
 def press_button(tag):
     try:
-        next_button = driver.find_element(By.CSS_SELECTOR, tag)
-        next_button.click()
-        time.sleep(2)
+        next_button = driver.find_element(By.XPATH, tag)
+        driver.execute_script("arguments[0].click();", next_button)
+
+        # Tunggu hingga URL berubah
+        WebDriverWait(driver, 10).until(EC.url_changes(driver.current_url))
         return True
     except Exception as e:
         print(f'Error pressing button: {e}')
         return False
+
+
+def get_html(url):
+    driver.get(url)
+    time.sleep(5)
+    html_page = driver.page_source
+    return html_page
+
+
+def get_current_url():
+    return driver.current_url
 
 
 def save_to_file(product, filename):
@@ -32,12 +42,16 @@ def save_to_file(product, filename):
     df.to_csv(fr'D:\Github\aprinur\Web_Scraping\alfagift_id\{filename}_{date}.csv', index=False)
 
 
+def wait_emergence(class_name):
+    return WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, f"{class_name}")))
+
+
 """
 press_button(".page-link[aria-label='Go to next page']")
 
 
 '.'                            = indicates a css class selector
-'page-link'                    = refers to an alement that has the class='page-link'
+'page-link'                    = refers to an element that has the class='page-link'
 '[]'                           = to target elements with specific attributes
 'aria-label='Go to next page'' = an attribute selector that finds elements where the 
                                  aria-label attribute exactly matches 'Go to next page'

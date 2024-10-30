@@ -11,8 +11,8 @@ class Soup(BeautifulSoup):
         """Method to scrape information from the product"""
         table = self.find('div', class_='col-sm-12 col-md-12 col-lg-5 col-12')
         tittle = (table.find('p', class_='text-xlg fw7 d-none d-sm-none d-md-none d-lg-block')
-                  .get_text().strip().capitalize())
-        brand = table.find('a', class_='text-sm fw7 text-secondary text-decoration-none ml-2').get_text()
+                  .get_text().strip())
+        brand = table.find('a', class_='text-sm fw7 text-secondary text-decoration-none ml-2').get_text().capitalize()
 
         original_price = None
         if table.find('del', class_='text-neutral-60 text-sm'):
@@ -75,12 +75,12 @@ class Soup(BeautifulSoup):
         """ Method to scrape active page"""
         return ''.join(self.find('button', attrs={'aria-checked': 'true'}).get_attribute_list('aria-posinset'))
 
-    def check_final_page(self):
+    def check_total_page(self):
         """ Method to check final page"""
-        return self.find('span', attrs={'aria-disabled': 'true'})
+        return ''.join(self.find('button', class_='page-link').get_attribute_list('aria-setsize'))
 
     def previous_page(self):
         """ Method to return to page after select category"""
-        page = [url.find('a').get_attribute_list('href') for url in self.find_all('li', class_='breadcrumb-item')]
-        return page
+        page = ''.join([page.find_next('a')['href'] for page in self.find_all('li', class_='breadcrumb-item')[1]])
+        return page.replace('/c', f'{URL}c')
 
