@@ -3,7 +3,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
-
 import time
 import pandas
 import datetime
@@ -13,11 +12,8 @@ driver = webdriver.Chrome()
 
 def press_button(tag):
     try:
-        next_button = driver.find_element(By.XPATH, tag)
+        next_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, tag)))
         driver.execute_script("arguments[0].click();", next_button)
-
-        # Tunggu hingga URL berubah
-        WebDriverWait(driver, 10).until(EC.url_changes(driver.current_url))
         return True
     except Exception as e:
         print(f'Error pressing button: {e}')
@@ -26,7 +22,7 @@ def press_button(tag):
 
 def get_html(url):
     driver.get(url)
-    time.sleep(5)
+    time.sleep(2)
     html_page = driver.page_source
     return html_page
 

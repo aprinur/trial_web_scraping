@@ -76,11 +76,15 @@ class Soup(BeautifulSoup):
         return ''.join(self.find('button', attrs={'aria-checked': 'true'}).get_attribute_list('aria-posinset'))
 
     def check_total_page(self):
-        """ Method to check final page"""
-        return ''.join(self.find('button', class_='page-link').get_attribute_list('aria-setsize'))
+        """ Method to check total page"""
+        return str(''.join(self.find('button', class_='page-link').get_attribute_list('aria-setsize')))
 
     def previous_page(self):
         """ Method to return to page after select category"""
         page = ''.join([page.find_next('a')['href'] for page in self.find_all('li', class_='breadcrumb-item')[1]])
         return page.replace('/c', f'{URL}c')
+
+    def final_page(self):
+        """Method to check final page"""
+        return bool(self.find('span', attrs={'aria-label': 'Go to next page', 'class': 'page-link'}))
 
