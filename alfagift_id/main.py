@@ -78,34 +78,37 @@ def main():
     category_urls = soup.scrape_category_url()
     result = []
 
-    for category_url in category_urls:
+    for category_url in category_urls[:3]:
         print(f'Opening category: {category_url}')
         html = get_html(category_url)
         product_page = Soup(html)
 
         while True:
             product_urls = product_page.scrape_product_url()
+            while True:
 
-            for product_url in product_urls:
-                print(f'Scraping product: {product_url}')
-                html = get_html(product_url)
-                time.sleep(2)
-                soup = Soup(html)
+                for product_url in product_urls[:3]:
+                    print(f'Scraping product: {product_url}')
+                    html = get_html(product_url)
+                    time.sleep(2)
+                    soup = Soup(html)
 
-                product = soup.scrape_product()
-                result.append(product)
+                    product = soup.scrape_product()
+                    result.append(product)
 
-            total_pages = product_page.check_total_page()
-            current_page = product_page.scrape_active_page()
+                total_pages = product_page.check_total_page()
+                current_page = product_page.scrape_active_page()
 
-            if current_page == total_pages:
-                print(f'Reached the last page of category {category_url}')
-                break
-            else:
-                press_button('//button[@role="menuitem" and @aria-label="Go to next page" and @class="page-link"]')
-                time.sleep(3)
-                html = get_html(get_current_url)
-                product_page = Soup(html)
+                if current_page == total_pages:
+                    print(f'Reached the last page of category {category_url}')
+                    break
+                else:
+                    page = soup.previous_page()
+                    html = get_html(page)
+                    press_button('//button[@role="menuitem" and @aria-label="Go to next page" and @class="page-link"]')
+                    time.sleep(3)
+                    product_page = Soup(html)
+                    product_urls = product_page.scrape_product_url()
 
     save_to_file(result, 'Trial')
 
