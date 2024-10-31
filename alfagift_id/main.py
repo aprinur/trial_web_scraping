@@ -72,18 +72,22 @@ def active_page():
 
 
 def main():
+    # Open main URL
     url = URL
     html = get_html(url)
     soup = Soup(html)
-    category_urls = soup.scrape_category_url()
+    category_urls = soup.scrape_category_url()   # Scrape category urls from main page
     result = []
 
+    # Loop through each category URL
     for category_url in category_urls[:3]:
         print(f'Opening category: {category_url}')
         html = get_html(category_url)
         product_page = Soup(html)
 
+        # Start scraping product URLs from category page
         while True:
+            # Scrape product URLs from current page
             product_urls = product_page.scrape_product_url()
             while True:
 
@@ -93,16 +97,19 @@ def main():
                     time.sleep(2)
                     soup = Soup(html)
 
+                    # Scrape product information and store in result
                     product = soup.scrape_product()
                     result.append(product)
 
+                # Check if already in the last page
                 total_pages = product_page.check_total_page()
                 current_page = product_page.scrape_active_page()
 
                 if current_page == total_pages:
                     print(f'Reached the last page of category {category_url}')
-                    break
+                    break  # Exit loop after reaching the last page
                 else:
+                    # move to the next page in the category if not in the last page
                     page = soup.previous_page()
                     html = get_html(page)
                     press_button('//button[@role="menuitem" and @aria-label="Go to next page" and @class="page-link"]')
@@ -110,8 +117,13 @@ def main():
                     product_page = Soup(html)
                     product_urls = product_page.scrape_product_url()
 
-    save_to_file(result, 'Trial')
+    save_to_file(result, 'Trial')  # Save the result
 
 
 if __name__ == '__main__':
     main()
+
+
+"""
+Pr: masih belum bisa scrape produk dihalaman ke 2 dst 
+"""
