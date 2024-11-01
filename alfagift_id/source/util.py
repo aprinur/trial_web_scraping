@@ -23,12 +23,11 @@ def press_button(tag):
 def get_html(url):
     driver.get(url)
     time.sleep(2)
-    html_page = driver.page_source
-    return html_page
+    return driver.page_source
 
 
 def get_current_url():
-    return driver.current_url
+    return driver.page_source
 
 
 def save_to_file(product, filename):
