@@ -4,8 +4,9 @@ from selenium.webdriver.common.by import By
 driver = webdriver.Chrome()
 
 
-def get_item(url):
-    return driver.get(url)
+def get_html(url):
+    driver.get(url)
+    return driver.page_source
 
 
 def click_button(url, args):
