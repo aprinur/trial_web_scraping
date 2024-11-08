@@ -2,9 +2,10 @@
 2. scrape url category
 3. open link category page
 4. scrape product url
-5. open product url
-6. scrape product information
-7. check if already in the last page of product page
-8. if yes go to next category and repeat number 4 to 7
-9. if not repeat number 4 to 7
-10. after reach the last page of the last category save result as xlsx and csv
+5. save product url into list of product url
+6. check if already in the last page of product page
+7. if yes go to next category and repeat number 4 to 6
+8. if not repeat number 4 to 7
+9. after reaching final category open each product url in list of product url
+10. scrape product information and save into temporary list
+11. save result as xlsx and csv
