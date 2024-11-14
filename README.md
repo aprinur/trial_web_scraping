@@ -1,2 +1,2 @@
 ﻿# web_scraping
-This is repo to save my scraping project 
+This is a repo to save my scraping program
