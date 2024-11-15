@@ -1,1 +1,0 @@
-URL = 'https://alfagift.id/'
